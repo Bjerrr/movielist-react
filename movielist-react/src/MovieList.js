@@ -9,7 +9,6 @@ export default function MovieList() {
     }]);
     const titleRef = useRef();
     const ratingRef = useRef();
-    const saveRef = useRef();
 
     function addItem(event) {
         event.preventDefault();
@@ -30,8 +29,16 @@ export default function MovieList() {
         }
     }
 
-    function deleteItem(id) {
+    const deleteItem = (id) => {
         setMovies(movies.filter((item) => item.id !== id));
+    }
+    const orderByTitle = () => {
+        const sortedMovies = [...movies].sort((a, b) => a.title.localeCompare(b.title));
+        setMovies(sortedMovies);
+    }
+    const orderByRating = () => {
+        const sortedMovies = [...movies].sort((a, b) => b.rating - a.rating);
+        setMovies(sortedMovies);
     }
     return (
         
@@ -50,16 +57,16 @@ export default function MovieList() {
                     <option value="5">5</option>
                 </select>
 
-                <input type="submit" className="btn btn-success mt-3" value="Spara Film" ref={saveRef} onClick={addItem}/>
+                <input type="submit" className="btn btn-success mt-3" value="Spara Film" onClick={addItem}/>
             </fieldset>
             <legend>Inlagda Filmer</legend>            
             <ul className='list-group'>
                 { movies.map(movies => <Movie key={movies.id} item={movies} deleteItem={deleteItem} />)}
             </ul>
-            <button id="order-alphabetic" class="btn btn-primary" onClick={orderByTitle}>
+            <button id="order-alphabetic" className="btn btn-primary" onClick={orderByTitle}>
                 Alfabetisk ordning
             </button>
-            <button id="order-grade" class="btn btn-primary" onClick={orderByRating}>
+            <button id="order-grade" className="btn btn-primary" onClick={orderByRating}>
                 Betygsordning
             </button>
         </div>
